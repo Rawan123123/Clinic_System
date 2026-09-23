@@ -1,0 +1,22 @@
+# Build files
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# User-specific files
+*.userosscache
+*.sln.docstates
+
+# Secrets / configuration
+appsettings.Development.json
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
