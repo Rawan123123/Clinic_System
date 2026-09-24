@@ -18,6 +18,10 @@ namespace clinic_system.Models
                 .WithMany(c => c.Patients)
                 .HasForeignKey(p => p.ClinicId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Clinic>()
+                .HasIndex(c => c.Email)
+                .IsUnique();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace clinic_system.Models
     {
         public int ClinicId { get; set; }
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Name { get; set; } = null!;
         [MaxLength(500)]
         public string? Logo { get; set; }
@@ -15,6 +15,14 @@ namespace clinic_system.Models
         public string? PhoneNumber { get; set; }
         [MaxLength(200)]
         public string? Address { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [MaxLength(256)]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string PasswordHash { get; set; } = string.Empty;
 
         public ICollection<Patient> Patients { get; set; } = new List<Patient>();
 
