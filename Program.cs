@@ -2,7 +2,6 @@ using clinic_system.Models;
 using clinic_system.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -34,7 +33,6 @@ namespace clinic_system
                        ValidateAudience = true,
                        ValidateLifetime = true,
                        ValidateIssuerSigningKey = true,
-
                        ValidIssuer = builder.Configuration["JWT:Issuer"],
                        ValidAudience = builder.Configuration["JWT:Audience"],
 
@@ -50,6 +48,17 @@ namespace clinic_system
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //************
+            // Add CORS policy to allow requests from React frontend
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReact", policy =>
+                    policy.WithOrigins("http://localhost:5173")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
+            });
+            //*************
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -60,6 +69,8 @@ namespace clinic_system
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowReact");
 
             app.UseAuthentication();  
             app.UseAuthorization();

@@ -5,6 +5,8 @@ using clinic_system.Models;
 using clinic_system.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace clinic_system.Controllers
 {
@@ -23,12 +25,12 @@ namespace clinic_system.Controllers
 
 
         [HttpPost("Register")]
-        public IActionResult Register(RegisterDTO RequestDTO)
+        public  async Task<IActionResult> Register(RegisterDTO RequestDTO)
         {
             ValidateModel();
             var email = RequestDTO.Email.Trim().ToLowerInvariant();
 
-            Clinic exist = _context.Clinics.FirstOrDefault(c => c.Email == email);
+            Clinic exist = await _context.Clinics.FirstOrDefaultAsync(c => c.Email == email);
             if(exist != null)
             {
                 return BadRequest("Clinic with this email already exists.");
@@ -46,17 +48,17 @@ namespace clinic_system.Controllers
 
             };
             _context.Clinics.Add(clinic);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(new {clinic.ClinicId ,clinic.Name , clinic.Email , clinic.PhoneNumber , clinic.Logo});
 
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(LoginDTO LoginDTO)
+        public async Task<IActionResult> Login(LoginDTO LoginDTO)
         {
             ValidateModel();
             var email = LoginDTO.Email.Trim().ToLowerInvariant(); 
-            Clinic clinic = _context.Clinics.FirstOrDefault(c => c.Email == email);
+            Clinic clinic =await _context.Clinics.FirstOrDefaultAsync(c => c.Email == email);
             if(clinic == null)
             {
                 return Unauthorized("Invalid email or password.");
