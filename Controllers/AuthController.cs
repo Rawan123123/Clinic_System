@@ -33,7 +33,7 @@ namespace clinic_system.Controllers
             Clinic exist = await _context.Clinics.FirstOrDefaultAsync(c => c.Email == email);
             if(exist != null)
             {
-                return BadRequest(new {message = "Clinic with this email already exists." });
+                return BadRequest("Clinic with this email already exists.");
 
             }
             string hashed = PasswordHasherService.HashPassword(RequestDTO.Password);
@@ -61,13 +61,13 @@ namespace clinic_system.Controllers
             Clinic clinic =await _context.Clinics.FirstOrDefaultAsync(c => c.Email == email);
             if(clinic == null)
             {
-                return Unauthorized(new {message = "Invalid email or password." });
+                return Unauthorized("Invalid email or password.");
             }
 
             bool isValidPassword = PasswordHasherService.VerifyPassword(LoginDTO.Password, clinic.PasswordHash);
             if (!isValidPassword)
             {
-                return Unauthorized(new {message = "Invalid email or password." });
+                return Unauthorized("Invalid email or password.");
             }
             string token = _jwtService.CreateToken(clinic);
             return Ok(new { clinic.ClinicId, clinic.Name, clinic.Email, clinic.PhoneNumber, clinic.Logo, token});
