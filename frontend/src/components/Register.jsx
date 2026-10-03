@@ -1,6 +1,6 @@
-﻿import { useState } from 'react'
-import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from '../config';
+﻿import { useNavigate } from "react-router-dom";
+import { useRegister } from "../hooks/useRegister";
+import { useState } from 'react';
 
 function Register() {
     const [name, setName] = useState('')
@@ -9,54 +9,21 @@ function Register() {
     const [phoneNumber, setPhoneNumber] = useState('')
     const [address, setAddress] = useState('')
 
-    const [registerErrors, setRegisterErrors] = useState([])
-    const [registerSuccess, setRegisterSuccess] = useState('')
-
-
+    const { registerErrors, registerSuccess, register } = useRegister();
     const navigate = useNavigate();
+
 
     async function handleRegister(e) {
         e.preventDefault()
 
-        setRegisterErrors([])
-        setRegisterSuccess('')
-
-        const registerData = {
+        register({
             name: name,
             email: registerEmail,
             password: registerPassword,
             phoneNumber: phoneNumber || null,
             address: address || null
-        }
-        try {
-            const response = await fetch(
-                `${API_BASE_URL}/api/Auth/Register`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(registerData)
-                }
-            )
-            const data = await response.json()
-            if (response.ok) {
-                setRegisterSuccess('Registration is successful')
-                console.log(data);
-            } else {
-
-                if (data.errors) {
-                    const allErrors = Object.values(data.errors).flat()
-                    setRegisterErrors(allErrors)
-                }
-                else {
-                    setRegisterErrors([data.message || "try again"])
-                }
-            }
-        } catch (error) {
-            console.error("Error during registration:", error);
-            setRegisterErrors(["Something went wrong. Please try again."]);
-        }
+        })
+        
     }
     return (
         < div >
@@ -116,7 +83,6 @@ function Register() {
                     </div>
                 }
             </form>
-
         </div>
     )
 }
