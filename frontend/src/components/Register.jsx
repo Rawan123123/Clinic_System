@@ -1,5 +1,6 @@
 ﻿import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from '../config';
 
 function Register() {
     const [name, setName] = useState('')
@@ -27,30 +28,34 @@ function Register() {
             phoneNumber: phoneNumber || null,
             address: address || null
         }
-        const response = await fetch(
-            'https://localhost:7279/api/Auth/Register',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registerData)
-            }
-        )
-        const data = await response.json()
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/api/Auth/Register`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(registerData)
+                }
+            )
+            const data = await response.json()
+            if (response.ok) {
+                setRegisterSuccess('Registration is successful')
+                console.log(data);
+            } else {
 
-        if (response.ok) {
-            setRegisterSuccess('Registration is successful')
-            console.log(data);
-        } else {
-
-            if (data.errors) {
-                const allErrors = Object.values(data.errors).flat()
-                setRegisterErrors(allErrors)
+                if (data.errors) {
+                    const allErrors = Object.values(data.errors).flat()
+                    setRegisterErrors(allErrors)
+                }
+                else {
+                    setRegisterErrors([data.message || "try again"])
+                }
             }
-            else {
-                setRegisterErrors([data.message || "try again"])
-            }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            setRegisterErrors(["Something went wrong. Please try again."]);
         }
     }
     return (

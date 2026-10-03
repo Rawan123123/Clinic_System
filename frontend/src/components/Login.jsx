@@ -1,5 +1,6 @@
 ﻿import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from '../config';
 
 function Login() {
     const [loginEmail, setLoginEmail] = useState('')
@@ -20,32 +21,38 @@ function Login() {
             email: loginEmail,
             password: loginPassword
         }
-        const response = await fetch(
-            'https://localhost:7279/api/Auth/Login',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(loginData)
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/api/Auth/Login`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
 
+                }
+            )
+
+
+            const data = await response.json()
+
+            if (response.ok) {
+                setLoginSuccess('Login is done');
+                localStorage.setItem("MyToken", data.token);
+                setToken(data.token);
+                navigate("/patients")
+
+                console.log(data);
+            } else {
+                setLoginErrors(data.message || "invalid emial or password")
+                console.log(data.message)
             }
-        )
-
-        const data = await response.json()
-
-        if (response.ok) {
-            setLoginSuccess('Login is done');
-            localStorage.setItem("MyToken", data.token);
-            setToken(data.token);
-
-            console.log(data);
-        } else {
-            setLoginErrors(data.message || "invalid emial or password")
-            console.log(data.message)
+        } catch (error) {
+            console.error("Error during login:", error);
+            setLoginErrors("Something went wrong. Please try again.");
 
         }
-
     }
     const navigate = useNavigate();
    
@@ -73,8 +80,6 @@ function Login() {
                 {loginSuccess && <p style={{ color: "green" }}>{loginSuccess}</p>}
 
                 {loginErrors && <p>{loginErrors}</p>}
-
-                {token && (<button type="button" onClick={() => navigate("/patients")}>Get My Patients</button>)}
             </form>
         </div>
     )

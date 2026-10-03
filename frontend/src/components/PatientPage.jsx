@@ -1,5 +1,6 @@
 ﻿import { useState , useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from '../config';
 
 function PatientPage() {
 
@@ -16,35 +17,41 @@ function PatientPage() {
         async function fetchPatients() {
             const token = localStorage.getItem("MyToken");
 
-            const response = await fetch(
-                "https://localhost:7279/api/Patient",
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/api/Patient`,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+
                     }
+                );
+                if (response.ok) {
+                    const data = await response.json();
+                    setPatients(data);
 
+                } else {
+                    setError('Failed to load patients')
                 }
-            );
-            if (response.ok) {
-                const data = await response.json();
-                setPatients(data);
-
-            } else {
-                setError('Failed to load patients')
             }
-            setLoading(false);
+            catch {
+                setError('Cannot reach the server');
+            }
+            finally {
+                setLoading(false);
+            }
         }
         fetchPatients();
     }
         , [])
-
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>{error}</p>
-
     function handleLogOut() {
         localStorage.removeItem("MyToken")
         navigate("/login");
     }
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>{error}</p>
 
 
     return(

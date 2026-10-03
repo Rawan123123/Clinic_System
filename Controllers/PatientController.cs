@@ -36,8 +36,6 @@ namespace clinic_system.Controllers
                     Gender = p.Gender,
                 }).ToListAsync();
             return Ok(patients);
-
-
         }
     }
 }
