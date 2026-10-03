@@ -21,7 +21,7 @@ namespace clinic_system.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GettMyPatients()
+        public async Task<IActionResult> GetMyPatients()
         {
             int ClinicId = GetCurrentUserId();
 
