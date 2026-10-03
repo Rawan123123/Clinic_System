@@ -1,22 +1,25 @@
 ﻿import { useState } from 'react'
-
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from '../config';
 
 function Register() {
     const [name, setName] = useState('')
-
     const [registerEmail, setRegisterEmail] = useState('')
     const [registerPassword, setRegisterPassword] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [address, setAddress] = useState('')
 
     const [registerErrors, setRegisterErrors] = useState([])
+    const [registerSuccess, setRegisterSuccess] = useState('')
 
 
+    const navigate = useNavigate();
 
     async function handleRegister(e) {
         e.preventDefault()
 
         setRegisterErrors([])
+        setRegisterSuccess('')
 
         const registerData = {
             name: name,
@@ -25,30 +28,34 @@ function Register() {
             phoneNumber: phoneNumber || null,
             address: address || null
         }
-        const response = await fetch(
-            'https://localhost:7279/api/Auth/Register',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registerData)
-            }
-        )
-        const data = await response.json()
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/api/Auth/Register`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(registerData)
+                }
+            )
+            const data = await response.json()
+            if (response.ok) {
+                setRegisterSuccess('Registration is successful')
+                console.log(data);
+            } else {
 
-        if (response.ok) {
-
-            console.log(data);
-        } else {
-
-            if (data.errors) {
-                const allErrors = Object.values(data.errors).flat()
-                setRegisterErrors(allErrors)
+                if (data.errors) {
+                    const allErrors = Object.values(data.errors).flat()
+                    setRegisterErrors(allErrors)
+                }
+                else {
+                    setRegisterErrors([data.message || "try again"])
+                }
             }
-            else {
-                setRegisterErrors([data.errors || "try again"])
-            }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            setRegisterErrors(["Something went wrong. Please try again."]);
         }
     }
     return (
@@ -92,11 +99,22 @@ function Register() {
                 <br />
                 <button type={"submit"}>Register</button>
 
-                {setRegisterErrors &&
-                    <ul>
-                        {registerErrors.map((err, i) => <li key={i}>{err}</li>)}
-                    </ul>}
 
+                {registerSuccess && 
+                    <div>
+                        <p style={{ color: "green" }}>{registerSuccess}</p>
+                        <button type="button" onClick={() => navigate("/login")}>Login</button>
+                    </div>    
+                }
+
+                {registerErrors.length > 0 &&
+                    <div>
+                        <ul>
+                            {registerErrors.map((err, i) => <li key={i}>{err}</li>)}
+                        </ul>
+                        <button type="button" onClick={() => navigate("/")}>Home</button>
+                    </div>
+                }
             </form>
 
         </div>
