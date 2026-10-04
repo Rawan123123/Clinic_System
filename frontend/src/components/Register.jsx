@@ -1,55 +1,29 @@
-﻿import { useState } from 'react'
-
+﻿import { useNavigate } from "react-router-dom";
+import { useRegister } from "../hooks/useRegister";
+import { useState } from 'react';
 
 function Register() {
     const [name, setName] = useState('')
-
     const [registerEmail, setRegisterEmail] = useState('')
     const [registerPassword, setRegisterPassword] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [address, setAddress] = useState('')
 
-    const [registerErrors, setRegisterErrors] = useState([])
-
+    const { registerErrors, registerSuccess, register } = useRegister();
+    const navigate = useNavigate();
 
 
     async function handleRegister(e) {
         e.preventDefault()
 
-        setRegisterErrors([])
-
-        const registerData = {
+        register({
             name: name,
             email: registerEmail,
             password: registerPassword,
             phoneNumber: phoneNumber || null,
             address: address || null
-        }
-        const response = await fetch(
-            'https://localhost:7279/api/Auth/Register',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registerData)
-            }
-        )
-        const data = await response.json()
-
-        if (response.ok) {
-
-            console.log(data);
-        } else {
-
-            if (data.errors) {
-                const allErrors = Object.values(data.errors).flat()
-                setRegisterErrors(allErrors)
-            }
-            else {
-                setRegisterErrors([data.errors || "try again"])
-            }
-        }
+        })
+        
     }
     return (
         < div >
@@ -92,13 +66,23 @@ function Register() {
                 <br />
                 <button type={"submit"}>Register</button>
 
-                {setRegisterErrors &&
-                    <ul>
-                        {registerErrors.map((err, i) => <li key={i}>{err}</li>)}
-                    </ul>}
 
+                {registerSuccess && 
+                    <div>
+                        <p style={{ color: "green" }}>{registerSuccess}</p>
+                        <button type="button" onClick={() => navigate("/login")}>Login</button>
+                    </div>    
+                }
+
+                {registerErrors.length > 0 &&
+                    <div>
+                        <ul>
+                            {registerErrors.map((err, i) => <li key={i}>{err}</li>)}
+                        </ul>
+                        <button type="button" onClick={() => navigate("/")}>Home</button>
+                    </div>
+                }
             </form>
-
         </div>
     )
 }

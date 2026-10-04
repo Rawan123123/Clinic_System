@@ -1,39 +1,24 @@
 ﻿import { useState } from 'react'
-
+import { useNavigate } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 
 function Login() {
     const [loginEmail, setLoginEmail] = useState('')
     const [loginPassword, setLoginPassword] = useState('')
-    const [loginErrors, setLoginErrors] = useState('')
+
+    const { loginErrors, loginSuccess, login } = useLogin()
+    const navigate = useNavigate();
 
     async function handleLogin(e) {
         e.preventDefault()
 
-        const loginData = {
+        const success = await login({
             email: loginEmail,
             password: loginPassword
-        }
-        const response = await fetch(
-            'https://localhost:7279/api/Auth/Login',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(loginData)
+        })
 
-            }
-        )
-        const data = await response.json()
-
-        if (response.ok) {
-            localStorage.setItem("MyToken", data.token);
-
-            console.log(data);
-        } else {
-            setLoginErrors(data.message || "invalid emial or password")
-            console.log(data.message)
-
+        if (success) {
+            navigate("/patients");
         }
     }
     return (
@@ -54,11 +39,13 @@ function Login() {
                 />
                 <br />
                 <button type={"submit"}>Login</button>
+                <button type="button" onClick={() => navigate("/")}>Home</button>
+
+                {loginSuccess && <p style={{ color: "green" }}>{loginSuccess}</p>}
 
                 {loginErrors && <p>{loginErrors}</p>}
             </form>
         </div>
     )
-   
 }
 export default Login
