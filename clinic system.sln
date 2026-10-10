@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36915.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clinic system", "clinic system.csproj", "{40C40912-FFFA-49A2-8587-96ABCB719214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicSystem.Tests", "..\ClinicSystem.Tests\ClinicSystem.Tests.csproj", "{64995BEE-E88A-4036-9421-8EA2BA8416B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicSystem.Tests", "ClinicSystem.Tests\ClinicSystem.Tests.csproj", "{FFB90BAB-9723-E76E-48E9-53A8F1109699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{40C40912-FFFA-49A2-8587-96ABCB719214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40C40912-FFFA-49A2-8587-96ABCB719214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40C40912-FFFA-49A2-8587-96ABCB719214}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64995BEE-E88A-4036-9421-8EA2BA8416B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64995BEE-E88A-4036-9421-8EA2BA8416B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64995BEE-E88A-4036-9421-8EA2BA8416B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64995BEE-E88A-4036-9421-8EA2BA8416B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFB90BAB-9723-E76E-48E9-53A8F1109699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFB90BAB-9723-E76E-48E9-53A8F1109699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFB90BAB-9723-E76E-48E9-53A8F1109699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB90BAB-9723-E76E-48E9-53A8F1109699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
