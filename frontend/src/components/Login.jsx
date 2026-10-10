@@ -6,7 +6,7 @@ function Login() {
     const [loginEmail, setLoginEmail] = useState('')
     const [loginPassword, setLoginPassword] = useState('')
 
-    const { loginErrors, loginSuccess, login } = useLogin()
+    const { loginErrors, login } = useLogin()
     const navigate = useNavigate();
 
     async function handleLogin(e) {
@@ -39,9 +39,10 @@ function Login() {
                 />
                 <br />
                 <button type={"submit"}>Login</button>
-                <button type="button" onClick={() => navigate("/")}>Home</button>
+                <p>Don't have an account ?{" "}
+                    <button type="button" onClick={() => navigate("/register")}>Register</button>
+                </p>
 
-                {loginSuccess && <p style={{ color: "green" }}>{loginSuccess}</p>}
 
                 {loginErrors && <p>{loginErrors}</p>}
             </form>

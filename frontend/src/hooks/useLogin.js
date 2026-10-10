@@ -3,11 +3,9 @@ import { useState } from 'react'
 
 export function useLogin() {
     const [loginErrors, setLoginErrors] = useState('')
-    const [loginSuccess, setLoginSuccess] = useState('')
 
     async function login(loginData) {
         setLoginErrors('')
-        setLoginSuccess('')
 
         try {
             const response = await fetch(
@@ -24,7 +22,6 @@ export function useLogin() {
             const data = await response.json()
 
             if (response.ok) {
-                setLoginSuccess('Login is done');
                 localStorage.setItem("MyToken", data.token);
                 return true;
 
@@ -37,5 +34,5 @@ export function useLogin() {
             return false;
         }
     }
-    return { loginErrors, loginSuccess, login }
+    return { loginErrors, login }
 }
