@@ -1,5 +1,4 @@
 ﻿using clinic_system.Exceptions;
-using clinic_system.Exeptions;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -29,7 +28,7 @@ namespace clinic_system.Controllers.Base
                 ?? User.FindFirstValue(JwtRegisteredClaimNames.Sub)
                 ?? User.FindFirstValue("sub");
 
-            if (string.IsNullOrEmpty(subClaim))
+            if (string.IsNullOrEmpty(subClaim) ||!int.TryParse(subClaim , out _))
             {
                 throw new UnauthorizedException("Clinic ID not found in token claims");
             }

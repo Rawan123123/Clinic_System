@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 
 
-namespace ClinicSystem.Tests
+namespace ClinicSystem.Tests.Services
 {
     [TestFixture]
     internal class JWTServiceTests
@@ -93,9 +93,7 @@ namespace ClinicSystem.Tests
             Assert.That(() => Service.CreateToken(_clinic),
                 Throws.TypeOf<InvalidOperationException>()
                 .With.Message.EqualTo("JWT:SecretKey must be at least 32 bytes.")
-                );
-
+            );
         }
-
     }
 }

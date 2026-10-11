@@ -71,9 +71,6 @@ namespace clinic_system.Controllers
             }
             string token = _jwtService.CreateToken(clinic);
             return Ok(new { clinic.ClinicId, clinic.Name, clinic.Email, clinic.PhoneNumber, clinic.Logo, token});
-
         }
-
-
     }
 }

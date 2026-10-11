@@ -1,6 +1,6 @@
 ﻿using clinic_system.Helpers;
 
-namespace ClinicSystem.Tests
+namespace ClinicSystem.Tests.Services
 {
     [TestFixture]
     internal class PasswordHasherServiceTests
