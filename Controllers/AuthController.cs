@@ -6,7 +6,6 @@ using clinic_system.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace clinic_system.Controllers
 {
@@ -71,9 +70,6 @@ namespace clinic_system.Controllers
             }
             string token = _jwtService.CreateToken(clinic);
             return Ok(new { clinic.ClinicId, clinic.Name, clinic.Email, clinic.PhoneNumber, clinic.Logo, token});
-
         }
-
-
     }
 }
