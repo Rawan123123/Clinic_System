@@ -1,59 +1,121 @@
-# Clinic System
+# 🏥 Clinic System
 
-- **Backend:** ASP.NET Core Web API (.NET) + EF Core + SQL Server + JWT
-- **Frontend:** React (Vite)
+A backend system for managing clinics and their patients, built with **ASP.NET Core Web API** and **SQL Server**.
 
-Both must run at the same time.
+> 🚧 **Project Status: Under Development**
+> This project is actively being built. Features, structure, and APIs may change as development continues.
 
-## Requirements
+---
 
-- .NET SDK
-- SQL Server (default instance `.` with Windows auth, or edit the connection string)
-- Node.js 18+
-- EF Core CLI: `dotnet tool install --global dotnet-ef`
+## ✨ Features
 
-## Backend
+- **Authentication** using JWT (JSON Web Tokens), with clinic ID and email embedded in the token claims
+- **Secure password hashing** with BCrypt
+- **Clinics & Patients** management (one clinic has many patients)
+- **Entity Framework Core** with code-first migrations
+- **Swagger UI** for exploring and testing the API
+- **Unit tests** for core services (JWT and password hashing)
 
-```bash
-cd <backend-folder>
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | ASP.NET Core Web API (.NET 8) |
+| Language | C# |
+| Database | SQL Server |
+| ORM | Entity Framework Core |
+| Authentication | JWT Bearer |
+| Password Hashing | BCrypt.Net |
+| API Docs | Swagger (Swashbuckle) |
+| Testing | NUnit |
+| Frontend | In progress |
+
+---
+
+## 📁 Project Structure
+
+```
+clinic system/
+├── Controllers/          # API endpoints
+├── DTOs/                 # Data transfer objects
+├── Enums/                # Enumerations
+├── Exceptions/           # Custom exceptions
+├── Migrations/           # EF Core migrations
+├── Models/               # Database entities
+├── Services/             # Business logic (JWT, password hashing, ...)
+├── frontend/             # Frontend app (in progress)
+├── ClinicSystem.Tests/   # Unit tests
+└── Program.cs
 ```
 
-1. In `appsettings.json`:
-   - `ConnectionStrings:MyConnection` -> point to your SQL Server.
-   - `JWT:SecretKey` -> replace the placeholder with any string of 32+ characters.
-2. Create the database:
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- SQL Server (LocalDB or full instance)
+- Visual Studio 2022 or VS Code
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Rawan123123/Clinic_System.git
+   cd Clinic_System
+   ```
+
+2. **Configure the app**
+
+   Update the SQL Server connection string and JWT settings in `appsettings.json`
+   (or use [User Secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) for sensitive values like the JWT secret).
+
+3. **Apply database migrations**
    ```bash
    dotnet ef database update
    ```
-3. Trust the HTTPS dev certificate (once):
+
+4. **Run the API**
    ```bash
-   dotnet dev-certs https --trust
-   ```
-4. Run:
-   ```bash
-   dotnet run --launch-profile https
+   dotnet run
    ```
 
-API must be on **https://localhost:7279** (Swagger: `/swagger`).
+5. Open Swagger UI at `https://localhost:<port>/swagger`
 
-## Frontend
+---
+
+## 🧪 Running Tests
 
 ```bash
-cd <frontend-folder>
-npm install
-npm run dev
+dotnet test
 ```
 
-Open **http://localhost:5173**.
+---
 
-## Notes
+## 🗺️ Roadmap
 
-- CORS only allows `http://localhost:5173`. If Vite uses another port, update the `AllowReact` policy in `Program.cs`.
-- The API URL (`https://localhost:7279`) is hard-coded in `Login.jsx` and `Register.jsx`. If the backend port changes, update both files.
+- [x] Project setup and database schema (Clinics & Patients)
+- [x] JWT authentication and password hashing
+- [x] Unit tests for core services
+- [ ] Complete CRUD endpoints for clinics and patients
+- [ ] Expand test coverage
+- [ ] Frontend integration
+- [ ] Deployment
 
-## Endpoints
+---
 
-| Method | URL | Body |
-|--------|-----|------|
-| POST | `/api/Auth/Register` | `{ name, email, password, phoneNumber, address }` |
-| POST | `/api/Auth/Login` | `{ email, password }` -> returns `token` |
+## 👩‍💻 Author
+
+**Rawan Adel Abdel Rahman**
+Computer Systems Engineering graduate, Al-Azhar University
+
+[GitHub](https://github.com/Rawan123123/) · [LinkedIn](https://www.linkedin.com/in/rawan-adel-abb8aa245/)
+
+---
+
+## 📄 License
+
+This project is for learning and portfolio purposes.
