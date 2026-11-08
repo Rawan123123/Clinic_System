@@ -1,4 +1,4 @@
-﻿namespace clinic_system.Exeptions
+﻿namespace clinic_system.Exceptions
 {
     public class ValidationException : Exception
     {
